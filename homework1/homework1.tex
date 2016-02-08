@@ -8,13 +8,27 @@
 \section*{Homework 1}
 
 \begin{enumerate}
-    \item In each of the following situations, indicate wherether $f - O(g)$, or $f = \Omega(g)$, or both (in which case $f = \Theta(g)$)
+    \item In each of the following situations, indicate wherether $f = O(g)$, or $f = \Omega(g)$, or both (in which case $f = \Theta(g)$)
 
-    \begin{tabular}{lll}
-      ~ & $f(n)$ & $g(n)$ \\
-      (a) & $n - 100$ & $n - 200$ \\
-      (b) & $n^{1/2}$ & $n^{2/3}$ \\
-      (c) & $100n + \log n$ & $n + (\log n)^2$ \\
+    \begin{tabular}{lll|r}
+      ~ & $f(n)$ & $g(n)$ & $O$, $\Omega$, or $\Theta$?\\
+      (a) & $n - 100$ & $n - 200$ & $f = \Theta(g)$ \\
+      (b) & $n^{1/2}$ & $n^{2/3}$ & $f = O(g)$\\
+      (c) & $100n + \log n$ & $n + (\log n)^2$& $f = \Theta(g)$ \\
+      (d) & $n \log n $ & $10n \log 10n$ & $f = \Theta(g)$\\
+      (e) & $\log 2n$ & $\log 3n$ & $f = \Theta(g)$ \\
+      (f) & $10 \log n$ & $\log(n^2)$ & $f = \Theta(g)$ \\
+      (g) & $n^{1.01}$ & $n \log^2 n$ & $f = \Omega(g)$\\
+      (h) & $n^2 / \log n$ & $n(\log n)^2$ & $f = \Omega(g)$\\
+      (i) & $n^{0.1}$ & $(\log n)^{10}$ & $f = \Omega(g)$\\
+      (j) & $(\log n)^{\log n}$ & $n / \log n$ & $f = \Omega(g)$\\
+      (k) & $\sqrt(n)$ & $(\log n)^3$ \\
+      (l) & $n^{1/2}$ & $5^{\log_2 n}$ \\
+      (m) & $n2^n$ & $3n$ \\
+      (n) & $2^n$ & $2^{n+1}$ \\
+      (o) & $n!$ & $2^n$ \\
+      (p) & $(\log n)^{\log n}$ & $2^{(\log_2 n)^2}$ \\
+      (q) & $\sum_{i = 1}^n i^k$ & $n^{k+1}$ \\
     \end{tabular}
 \end{enumerate}
 
