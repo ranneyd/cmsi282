@@ -1,1 +1,1 @@
-![My Homework](homework1.pdf)
+![My Homework](homework1.png)
