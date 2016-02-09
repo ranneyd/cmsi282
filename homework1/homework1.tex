@@ -3,6 +3,8 @@
 \usepackage{amsmath}
 \usepackage{enumerate}
 \usepackage{geometry}
+\usepackage{ dsfont }
+
 \geometry{margin=1in}
 \begin{document}
 
@@ -31,7 +33,9 @@
       (p) & $(\log n)^{\log n}$ & $2^{(\log_2 n)^2}$ & $f = O(g)$ \\
       (q) & $\sum_{i = 1}^n i^k$ & $n^{k+1}$ & $f = O(g)$\\
     \end{tabular}
-    \item Is the difference of $5^{30,000}$ and $5^{30,000}$ a multiple of $31$?
+    \item Dasgupta Problem 1.13
+
+    Is the difference of $5^{30,000}$ and $5^{30,000}$ a multiple of $31$?
     \\\\
     We know that $5^3 = 125$ and $31*4 = 124$ so it follows that.
     $$5^{30,000} \equiv (5^3)^{10,000} \equiv (125)^{10,000} \equiv 1^{10,000} \equiv 1 (\text{mod } 31)$$
@@ -43,6 +47,16 @@
     $$5^{30,000} - 6^{123,456} \equiv 1 - 1 \equiv 0 (\text{mod } 31)$$
 
     So the difference is divisible by 31.
+
+    \item Levitin Problem 2.1.5b
+
+    Prove the alternative formula for the number of bits in the binary representation of a positive integer $n$:
+
+    $$b = \lceil \log_2(n+1)\rceil$$
+
+    We observe that 1) a number $2^{b-1} \,|\, b \in \mathds{Z}$ is representable in binary with $b$ bits. We also observe that 2) any number $k$ such that $2^{b-1} \leq k < 2^b$ is also expressible with $b$ bits. Given a number $n$, it follows that $n = 2^{b-1}\,|\, b \in \mathds{Z}$ or $n \not = 2^{b-1}\,|\, b \in \mathds{Z}$. Given the first case, it follows that $n+1 < 2^b$ unless $n = 0$ or $n = 1$. If $n = 0$ or $n = 1$, then $\lceil \log_2(n+1)\rceil = 1$, which is the number of bits required to express 0 or 1. Otherwise, since $n + 1 < 2^b$, by observation 2), we see that $n + 1$ is also expressible with $b$ bits. We also know that since $n+1 < 2^b$ that $b -1 < \log_2 (n+1) < b$. Since $b \in \mathds{Z}$, $\lceil \log_2(n+1)\rceil = b$.
+
+    Given the second case where $n \not = 2^{b-1}\,|\, b \in \mathds{Z}$, 
 \end{enumerate}
 
 
