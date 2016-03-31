@@ -105,84 +105,14 @@
 
     \end{enumerate}
 
-    \item Evaluate a polynomial a value $x$ using Horner's rule. Represent polynomials with dictionaries mapping exponents to coefficients, e.g. $3x^5−2x^3+5x−3$ would be
-    \begin{verbatim}
-    {5:3,3:-2,1:5,0:-3}
-    \end{verbatim}
-
+\item Evaluate a polynomial a value $x$ using Horner's rule. Represent polynomials with dictionaries mapping exponents to coefficients, e.g. $3x^5−2x^3+5x−3$ would be
 \begin{verbatim}
-'use strict';
-
-class Polynomial {
-    constructor(coefficients) {
-        this.coefficients = coefficients;
-        this.max = Math.max(...Object.keys(coefficients));
-
-        // If a coefficient isn't provided, it's 0
-        // We know we have the coefficient for the maximum one, so -1
-        for( let i = this.max - 1; i >= 0; --i) {
-            if( !coefficients[i] ){
-                coefficients[i] = 0;
-            }
-        }
-    }
-    evaluate(x) {
-        let i = this.max;
-        let result = 0;
-        while(i >= 0) {
-            // Get the coefficient
-            let a = this.coefficients[i--];
-            // Multiply x by what we got last time
-            let b = result * x;
-            // The result is the sum
-            result = a + b;
-        }
-        return result;
-    }
-}
-
-let solutions = [
-    [
-        {0:1},  // coefficients
-        1,      // x
-        1       // result
-    ],
-    [
-        {0:1},  // coefficients
-        2,      // x
-        1       // result
-    ],
-    [
-        {3:1, 2:-6, 1:11, 0:-6},// coefficients
-        2,                      // x
-        0                       // result
-    ],
-    [
-        {3:2, 2:-6, 1:2, 0:-1}, // coefficients
-        3,                      // x
-        5                       // result
-    ],
-    [
-        {4:1, 3:3, 2:5, 1:7, 0:9},  // coefficients
-        2,                          // x
-        83                          // result
-    ],
-    [
-        {3:2, 1:-3, 0:-5},  // coefficients
-        -2,                 // x
-        -15                 // result
-    ]
-];
-
-for( let i in solutions) {
-    let soln = solutions[i]
-    let poly = new Polynomial(soln[0]);
-    let result = poly.evaluate(soln[1]);
-    if( result !== soln[2]) {
-        console.log(`${i}: Got ${result} expected ${soln[2]}`);
-    }
-}
+{5:3,3:-2,1:5,0:-3}
 \end{verbatim}
+
+\vspace{5 mm}
+
+My solution is included as poly.js.
 
 \item Suppose you were given a list of size $3n$ integers. Write a function to determine whether or not you can partition the list into $n$ triples such that the sum of each triple was the same. For example, given:
 \begin{verbatim}
@@ -203,6 +133,8 @@ while the answer would be $false$ for
 
 The answer is also false if the length of the input list is not a multiple of 3. Make sure to correctly handle the empty list and the list with exactly three elements!
 
+\vspace{5 mm}
+
 My solution is included as three.js. I'm pretty sure this is NP-Hard, by the way. As such, this problem was very hard to do in a non-painfully-inefficient way. I chose to use memoization and optimize in every way I could think of. I recorded successful memo table hits (when it looked for a value and it was already there), and reported the ratio of that number to the total number of iterations and I got $very$ impressive benefit from it (it was often $> 80\%$ of iterations had a successful memo table hit). This number is flawed, however, because not all memo hits are equal. Some are just the sum of a single subset, others are collections of numerous subsets; some hits saved a $lot$ of work and some saved a trivial amount. However, I'm impressed by how effective memoization was.
 
 
@@ -215,6 +147,12 @@ My solution is included as three.js. I'm pretty sure this is NP-Hard, by the way
               C(n - 1, k) + C(n - 1, k -1) & \text{if } 1 \leq k \leq n - 1
            \end{cases}
 \]
+
+If memoization is not used, and the function is implemented directly from the definition, how many function calls are made to compute $C(20,11)$? If memoization is used, how many calls would be made?
+
+\vspace{5 mm}
+
+
 
 \end{enumerate}
 
