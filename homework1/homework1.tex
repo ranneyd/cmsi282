@@ -4,6 +4,8 @@
 \usepackage{enumerate}
 \usepackage{geometry}
 \usepackage{ dsfont }
+\usepackage{listings}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
 
 \geometry{margin=1in}
 \begin{document}
@@ -35,7 +37,7 @@
     \end{tabular}
     \item Dasgupta Problem 1.13
 
-    Is the difference of $5^{30,000}$ and $5^{30,000}$ a multiple of $31$?
+    Is the difference of $5^{30,000}$ and $6^{123,456}$ a multiple of $31$?
     \\\\
     We know that $5^3 = 125$ and $31*4 = 124$ so it follows that.
     $$5^{30,000} \equiv (5^3)^{10,000} \equiv (125)^{10,000} \equiv 1^{10,000} \equiv 1 (\text{mod } 31)$$
@@ -54,12 +56,166 @@
 
     $$b = \lceil \log_2(n+1)\rceil$$
 
-    We observe that 1) a number $2^{b-1} \,|\, b \in \mathds{Z}$ is representable in binary with $b$ bits. We also observe that 2) any number $k$ such that $2^{b-1} \leq k < 2^b$ is also expressible with $b$ bits. Given a number $n$, it follows that $n = 2^{b-1}\,|\, b \in \mathds{Z}$ or $n \not = 2^{b-1}\,|\, b \in \mathds{Z}$. Given the first case, it follows that $n+1 < 2^b$ unless $n = 0$ or $n = 1$. If $n = 0$ or $n = 1$, then $\lceil \log_2(n+1)\rceil = 1$, which is the number of bits required to express 0 or 1. Otherwise, since $n + 1 < 2^b$, by observation 2), we see that $n + 1$ is also expressible with $b$ bits. We also know that since $n+1 < 2^b$ that $b -1 < \log_2 (n+1) < b$. Since $b \in \mathds{Z}$, $\lceil \log_2(n+1)\rceil = b$.
+    First, note that integers are sequential, meaning that given $a \in \mathds{Z}$, there are no integers between $a$ and $a + 1$. This implies that given $a < b \in \mathds{Z}$, $a + 1 \leq b$ (if $a < b$, then $a$ is, at most, $b - 1$, and $b - 1 + 1 = b$).
 
-    Given the second case where $n \not = 2^{b-1}\,|\, b \in \mathds{Z}$, 
+    Suppose $0 < n \in \mathds{Z}$. I assert that $n$ is bounded above and below by powers of two, which is to say:
+    $$\forall n,\,\exists x \in \mathds{Z}\tab|\tab 2^x \leq n < 2^{x+1}$$
+
+    Note that for $n = 1$, $2^0 \leq 1 < 2^1$. Suppose $\forall n,\,\exists x \in \mathds{Z}\tab|\tab 2^x \leq n < 2^{x+1}$. Consider $n + 1$. $n$ is, at most $2^{x + 1} - 1$. Since integers are sequential (as noted at the beginning of the proof) $n + 1$ is, at most, $2^{x + 1}$, in which case let $x = x + 1$ ($2^{x + 1} \leq n + 1 < 2^{x + 2}$). In all other cases, $n + 1 < 2^{x + 1}$, and since $2^{x} \leq n$, it must be true that $2^{x} < n + 1$. So, by induction, the assertion must be true.
+
+    So, for some $n \in \mathds{Z}$, $2^{x} \leq n < 2^{x + 1}$ for some $x \in \mathds{Z}$. At its smallest, $n = 2^{x}$ which implies that (noting that $\lceil x \rceil = x$ since $x \in \mathds{Z}$)
+
+    $$\log_2(2^{x}+1) > \log_2(2^{x}) = x $$
+
+    which implies (since $log_2(2^{x})$ produces an integer) that 
+
+    $$\lceil \log_2(2^{x}+1) \rceil > \log_2(2^{x}) = x $$
+
+    At it's largest, $n = 2^{x + 1} - 1$, which implies that, at its largest
+
+    $$\lceil \log_2(2^{x + 1} - 1 + 1 ) \rceil =  x + 1$$
+
+    So  $x < \lceil \log_2(n + 1) \rceil \leq x + 1\implies x + 1 = \lceil \log_2(n + 1) \rceil$. Let $b = x + 1$.
+
+    \item Levatin Problem 2.1.10
+    Invention of Chess
+    \begin{enumerate}
+      \item According to a well-known legend, the game of chess was invented many centuries ago in northwestern India by a certain sage. When he took his invention to his king, the king liked the game so much that he offered the inventor any reward he wanted. The inventor asked for some grain to be obtained as follows: just a single grain of wheat was to be placed on the first square of the chessboard, two on the second, four on the third, eight on the fourth, and so on, until all 64 squares had been filled. If it took just 1 second to count each grain, how long would it take to count all the grain due to him?
+
+      \vspace{5 mm}
+
+      To find the time necessary to count all the grain, we must find the amount of grain. This quantity is 
+
+      $$\sum_{i = 0}^{63} 2^i$$
+
+      This happens to be $2^{64} - 1$. A binary number with $n$ 1 digits is $\sum_{i = 0}^{n-1} 2^i$. Naturally, adding 1 to this gives us a 1 followed by $n$ zeros, or $2^{n + 1}$.
+
+      \item How long would it take if instead of doubling the number of grains for each square of the chessboard, the inventor asked for adding two grains?
+
+      \vspace{5 mm}
+
+      Let $g = \{1, 3, 5, ... 1 + (63)2\}$, representing the grain on each of the squares. Let $x = \sum g$. If we subtract 1 from every element of $g$, we get $g' = \{0, 2, 4, ... (63)2\}$. Since there are 64 elements in $g$, it follows that $x - 64 = \sum g'$. If we divide both sides by two, we divide every element of $g'$ by 2, producing $g'' = \{0, 1, 2, ... 63\}$. So $\frac{x - 64}{2} = \sum g''$. But we know that the sum of all integers from $a$ to $b$ is $\frac{b - a + 1}{2}\left(a + b\right)$, so $\sum g = \frac{63 - 0 + 1}{2}\left(63 + 0\right) = \frac{64(63)}{2}$. Thus
+
+      $$\frac{x - 64}{2} = \frac{64(63)}{2}$$
+
+      or
+
+      $$x = 64^2 = 2^{12} = 4096$$
+
+
+    \end{enumerate}
+
+    \item Evaluate a polynomial a value $x$ using Horner's rule. Represent polynomials with dictionaries mapping exponents to coefficients, e.g. $3x^5−2x^3+5x−3$ would be
+    \begin{verbatim}
+    {5:3,3:-2,1:5,0:-3}
+    \end{verbatim}
+
+\begin{verbatim}
+'use strict';
+
+class Polynomial {
+    constructor(coefficients) {
+        this.coefficients = coefficients;
+        this.max = Math.max(...Object.keys(coefficients));
+
+        // If a coefficient isn't provided, it's 0
+        // We know we have the coefficient for the maximum one, so -1
+        for( let i = this.max - 1; i >= 0; --i) {
+            if( !coefficients[i] ){
+                coefficients[i] = 0;
+            }
+        }
+    }
+    evaluate(x) {
+        let i = this.max;
+        let result = 0;
+        while(i >= 0) {
+            // Get the coefficient
+            let a = this.coefficients[i--];
+            // Multiply x by what we got last time
+            let b = result * x;
+            // The result is the sum
+            result = a + b;
+        }
+        return result;
+    }
+}
+
+let solutions = [
+    [
+        {0:1},  // coefficients
+        1,      // x
+        1       // result
+    ],
+    [
+        {0:1},  // coefficients
+        2,      // x
+        1       // result
+    ],
+    [
+        {3:1, 2:-6, 1:11, 0:-6},// coefficients
+        2,                      // x
+        0                       // result
+    ],
+    [
+        {3:2, 2:-6, 1:2, 0:-1}, // coefficients
+        3,                      // x
+        5                       // result
+    ],
+    [
+        {4:1, 3:3, 2:5, 1:7, 0:9},  // coefficients
+        2,                          // x
+        83                          // result
+    ],
+    [
+        {3:2, 1:-3, 0:-5},  // coefficients
+        -2,                 // x
+        -15                 // result
+    ]
+];
+
+for( let i in solutions) {
+    let soln = solutions[i]
+    let poly = new Polynomial(soln[0]);
+    let result = poly.evaluate(soln[1]);
+    if( result !== soln[2]) {
+        console.log(`${i}: Got ${result} expected ${soln[2]}`);
+    }
+}
+\end{verbatim}
+
+\item Suppose you were given a list of size $3n$ integers. Write a function to determine whether or not you can partition the list into $n$ triples such that the sum of each triple was the same. For example, given:
+\begin{verbatim}
+[2,4,8,12,15,2,0,6,3,2,9,1]
+\end{verbatim}
+
+the answer is $true$ because you could partition this list as follows:
+
+\begin{verbatim}
+[(4,3,9),(15,0,1),(8,2,6),(2,2,12)]
+\end{verbatim}
+
+while the answer would be $false$ for 
+
+\begin{verbatim}
+[6, -1, 8, 3455, 11, 7]
+\end{verbatim}
+
+The answer is also false if the length of the input list is not a multiple of 3. Make sure to correctly handle the empty list and the list with exactly three elements!
+
+My solution is included as three.js. I'm pretty sure this is NP-Hard, by the way. As such, this problem was very hard to do in a non-painfully-inefficient way. I chose to use memoization and optimize in every way I could think of. I recorded successful memo table hits (when it looked for a value and it was already there), and reported the ratio of that number to the total number of iterations and I got $very$ impressive benefit from it (it was often $> 80\%$ of iterations had a successful memo table hit). This number is flawed, however, because not all memo hits are equal. Some are just the sum of a single subset, others are collections of numerous subsets; some hits saved a $lot$ of work and some saved a trivial amount. However, I'm impressed by how effective memoization was.
+
+
+\item Consider the function
+
+\[
+  C(n,k) = \begin{cases} 
+              1 & \text{if } k = 0\\
+              1 & \text{if } k = n\\
+              C(n - 1, k) + C(n - 1, k -1) & \text{if } 1 \leq k \leq n - 1
+           \end{cases}
+\]
+
 \end{enumerate}
-
-
-
 
 \end{document}
