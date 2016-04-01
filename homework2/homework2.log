@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.25)  1 APR 2016 01:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.25)  1 APR 2016 15:06
 entering extended mode
 **C:/Users/Dustin/Documents/GitHub/cmsi282/homework2/homework2.tex
 (C:/Users/Dustin/Documents/GitHub/cmsi282/homework2/homework2.tex
@@ -224,23 +224,31 @@ REASONABLY[]
 
 [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] (homework2.aux) ) 
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (38.93808pt too wide) detected at line 107
+\OML/cmm/m/it/12 d \OT1/cmr/m/n/12 = 221164332065581074768775083043396230632920
+807851349271272978803690017985241
+ []
+
+[2] [3] [4] (homework2.aux) ) 
 Here is how much of TeX's memory you used:
  2859 strings out of 493698
  38237 string characters out of 3144408
- 105046 words of memory out of 3000000
+ 106046 words of memory out of 3000000
  6183 multiletter control sequences out of 15000+200000
  9060 words of font info for 35 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 27i,7n,32p,1351b,247s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on homework2.pdf (2 pages, 53337 bytes).
+ 27i,7n,32p,1351b,275s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on homework2.pdf (4 pages, 92652 bytes).
 PDF statistics:
- 25 PDF objects out of 1000 (max. 8388607)
+ 43 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

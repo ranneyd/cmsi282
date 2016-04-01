@@ -80,21 +80,72 @@ So it follows that
 
 \begin{verbatim}
   T   W   B   T   L   L   A   E   P   O   D   T   U   B   T   W   B 
-  21  53  42  21  32  32  12  23  31  51  11  21  41 42  21  53  42
+  21  53  42  21  32  32  12  23  31  15  11  21  41 42  21  53  42
   T   L   T   D   L   D   D   V   S   N   N   H   E   E   T   L   S
-  21  32  21  11  32  11  11  52  33  14  14  22  23  45  21  32  33
+  21  32  21  11  32  11  11  52  33  14  14  22  23  23  21  32  33
   K   D   D   S   I   F   G   I   I   M   W   L   Y   D   K   D   D
   45  11  11  33  34  43  44  34  34  51  53  32  25  11  45  11  11
   S   P   H   B   P   Q   K   O   F   H   M   D   L   S   K   R   S
   33  31  22  42  31  35  45  15  43  22  51  11  32  33  45  13  33
 
-21534221323212233151112141422153422132211132111152331414222345213233
+21534221323212233115112141422153422132211132111152331414222323213233
 45111133344344343451533225114511113331224231354515432251113233451333
-COMPUTERSCIENCEISNZDOREABOUTCOMPUTERSTHANASTRONOMYISABOUTTELFWCOPESS
+COMPUTERSCIENCEISNOMOREABOUTCOMPUTERSTHANASTRONOMYISABOUTTELESCOPESS
+\end{verbatim}
+\end{center}
+
+\item What are the RSA's public and private keys generated from
+
+$$p=23847623789462398745236743254827634647$$
+$$q=80147623789462398745236743254827634711$$
+
+My public key can be any number that is coprime with $\phi(n)$. Any prime that does not divide $\phi(n)$ will do. $\phi(n) = (p - 1)(q - 1)$, so we need a public key $e$ that does not divide $p - 1$ or $q - 1$. Using Mathematica I find 
+$$e = 10633823966279326983230456482242756601$$
+
+Using Mathematica again to solve $65537d \equiv 1 \mod \phi(n)$ I get
+
+$$d = 221164332065581074768775083043396230632920807851349271272978803690017985241$$
+
+\item If someone's RSA public key is (729880581317, 5), what is her private key? Give a detailed derivation, showing all work.
+
+\vspace{5mm}
+
+We know that $n = 729880581317 = pq$, but because this is not a secure key length, Mathematica had no trouble finding that the prime factors of $n$ are $822893$ and $886969$, so those are our $p$ and $q$ (note that p and q are interchangeable in RSA). Thus, $\phi(n) = (p - 1)(q - 1) = 729878871456$. The public key is $5$, which is also a really poor choice, so we know that the modular inverse of 5 and $729878871456$ is our private key, and that happens to be $583903097165$. So the private key is $583903097165$.
+
+\item Dasgupta 1.45
+RSA and digital signatures. Recall that in the RSA public-key cryptosystem, each user has a public key $P = (N,e)$ and a secret key $d$. In a digital signature scheme, there are two algorithms, $sign$ and $verify$. The $sign$ procedure takes a message and a secret key, then outputs a signature $\sigma$. The verify procedure takes a public key $(N,e)$, a signature $\sigma$, and a message $M$, then returns ``true'' if $\sigma$ could have been created by $sign$ (when called with message $M$ and the secret key corresponding to the public key $(N,e)$); ``false'' otherwise.
+
+\begin{enumerate}
+    \item Why would we want digital signatures?
+
+\vspace{5mm}
+
+
+    With digital signatures we can confirm that someone we are communicating with is who they say they are. This is important for things like SSL and online encrypted communication; if I'm getting a message from some computer I want to know it's a computer I trust and it's the computer it claims to be, especially if it is asking for privileged information in return.
+
+    \item An RSA signature consists of $sign(M,d) = M^d \mod N$, where $d$ is a secret key and $N$ is part of the public key. Show that anyone who knows the public key $(N,e)$ can perform $verify((N,e),M^d,M)$, i.e., they can check that a signature really was created by the private key. Give an implementation and prove its correctness.
+
+\vspace{5mm}
+
+    Suppose we get a signature $\sigma$ with public key $(N, e)$ and message $M$. We know from RSA that $(M^d)^e \equiv M \mod N$. We know that $\sigma \equiv M^d \mod N$. Thus, if we find $\sigma^e \mod N$, it must be congruent to $M \mod N$ . If $\sigma^e \not \equiv M \mod N$, then $\sigma$ was not produced with $M$ or $d$, meaning this person is a fraud.
+
+\vspace{5mm}
+
+
+    $Verify$ is a one-line Mathematica function:
+\begin{verbatim}
+    Verify[N_, e_, sigma_, M_] := M == PowerMod[sigma, e, N]
 \end{verbatim}
 
+    I included a file ``verify.nb'' that illustrates a variety of tests. I'm afraid, other than testing it, I cannot ``prove'' it works, only illustrate that it does for these tests.
+    \item Generate your own RSA modulus $N = pq$, public key $e$, and private key $d$ (you don't need to use a computer). Pick $p$ and $q$ so you have a 4-digit modulus and work by hand. Now sign your name using the private exponent of this RSA modulus. To do this you will need to specify some one-to-one mapping from strings to integers in $[0,N - 1]$. Specify any mapping you like. Give the mapping from your name to numbers $m_1,m_2,...m_k$, then sign the first number by giving the value $m_1^d \mod N$, and finally show that $(m_1^d)e = m_1 \mod N$.
 
-\end{center}
+    \vspace{5mm}
+
+    I chose $p = 113$ and $q = 11$, because these seemed like nice primes that would be easy to work with. I got $N = 1243$. I chose $e = 3$ because it was easy and happened to be coprime with $N$, then I computed $d = 747$ by realizing that $1243 \times 2 + 1 = 747e$. I used standard ASCII for my name, so $D = 100$. You'd think raising $100$ to a power would be easy, but not when it's $747$, so I let Mathematica handle that for me and I got 375. I then verified it and it came out as 100, just as expected!
+
+    \item Alice wants to write a message that looks like it was digitally signed by Bob. She notices that Bob's public RSA key is $(17,391)$. To what exponent should she raise her message? 
+\end{enumerate}
 
 \end{enumerate}
 
