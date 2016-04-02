@@ -144,7 +144,69 @@ RSA and digital signatures. Recall that in the RSA public-key cryptosystem, each
 
     I chose $p = 113$ and $q = 11$, because these seemed like nice primes that would be easy to work with. I got $N = 1243$. I chose $e = 3$ because it was easy and happened to be coprime with $N$, then I computed $d = 747$ by realizing that $1243 \times 2 + 1 = 747e$. I used standard ASCII for my name, so $D = 100$. You'd think raising $100$ to a power would be easy, but not when it's $747$, so I let Mathematica handle that for me and I got 375. I then verified it and it came out as 100, just as expected!
 
-    \item Alice wants to write a message that looks like it was digitally signed by Bob. She notices that Bob's public RSA key is $(17,391)$. To what exponent should she raise her message? 
+    \item Alice wants to write a message that looks like it was digitally signed by Bob. She notices that Bob's public RSA key is $(17,391)$. To what exponent should she raise her message?
+
+    \vspace{5mm}
+
+    Since $p$ and $q$ must be greater than 1, an $N$ of $17$ is impossible. I will assume the writer accidentally swapped $N$ and $e$. In this case, 391 factors into 197 and 2, giving us $p$ and $q$. This makes $\phi(n) = (197 - 1)(2 - 1) = 196$. This means that $17d \equiv 1 \mod 196$. Well, using Mathematica I get that $d = 173$. So that is what Alice should use.
+\end{enumerate}
+
+\item Dasgupta 1.46 Digital signatures,continued. 
+Consider the signature scheme of Exercise 1.45. 
+
+\begin{enumerate}
+    \item Signing involves decryption, and is therefore risky. Show that if Bob agrees to sign anything he is asked to, Eve can take advantage of this and decrypt any message sent by Alice to Bob.
+
+    \vspace{5mm}
+
+    In order to decrypt a message sent by Alice to Bob, Eve would need Bob's private key. However, if Eve asks Bob for his signature using a message she knows, call it $M$, Eve will receive $\sigma = M^d \mod N$ back as the signature. Eve can then perform the following algorithm: begin with $x = \sigma$. If $M$ divides $x$ evenly, divide $x$ by $M$. Otherwise add $N$ to $x$. Repeat this until $x$ is 1. The number of times you divided by $M$ is $d$.
+
+    \item Suppose that Bob is more careful, and refuses to sign messages if their signatures look suspiciously like text. (We assume that a randomly chosen message--that is, a random number in the range $\{1, ..., N - 1\}$--is very unlikely to look like text.) Describe a way in which Eve can nevertheless still decrypt messages from Alice to Bob, by getting Bob to sign messages whose signatures look random.
+
+    \vspace{5mm}
+
+    The above algorithm works regardless of the message. If you are allowed to supply the message, as long as you keep track of it you can use it.
+
+    I thought this was both too easy and too complicated, so I cheated and looked at the answers. The answer for both these is much smarter than what I did. Sending Bob Alice's encrypted message and asking him to sign it will literally decipher it, but then Bob would surely realize what Eve was up to and she would get caught as a bad guy. 
+\end{enumerate}
+
+\item Dasgupta Problem 2.12
+
+How many lines, as a function of $n$ (in $\Theta(\dot)$ form), does the following program print? Write a recurrence and solve it. You may assume $n$ is a power of 2.
+
+\begin{verbatim}
+function f(n)
+    if n > 1:
+        print_line(``still going'')
+        f(n/2)
+        f(n/2)
+\end{verbatim}
+
+\vspace{5mm}
+
+This problem is a recurrence relation like those on page 53. Here, $a = 2$, $b = 2$, and $d = 0$ since the combining of the answers (printing) takes constant time. By the Master Theorem on page 54, since $\log_2 2 = 1$, it follows that $T(n) = \Theta(n^{\log_2 2}) = \Theta(n)$. This kind of makes sense because we are recursing $\log_2 n$ times, but each time doing double the work, and $2^{\log_2 n} = n$.
+
+\item Dasgupta Problem 2.23
+An array $A[1...n]$ is said to have a \em{majority element} if more than half of its entries are the same. given an array, the task is to design an efficient algorithm to tell whether the array has a majority element, and, if so, to find that element. The elements of the array are not necessarily from some ordered domain like the integers, and so there can be no comparisons of the form ``is $A[i] > A[j]$?''. (Think of the array elements as GIF files, say.) However you \em{can} answer questions of the form: ``is $A[i] = A[j]$?'' in constant time.
+
+\begin{enumerate}
+    \item Show how to solve this problem in $O(n\log n)$ time. (\emph{Hint:} Split the array $A$ into two arrays $A_1$ and $A_2$ of half the size. Does knowing the majority elements of $A_1$ and $A_2$ help you figure out the majority element of $A$? If so, you can use a divide-and-conquer approach.)
+
+    \vspace{5mm}
+
+    Key insight: If $A_1$ and $A_2$ both have a majority element, and they are the same element, then that must be the majority element of $A$ as well. If some value $x$ is the majority value of $A_1$, then half or more of the values in $A_1$ are equal to $x$. If the same can be said about $A_2$, then the ``at least one half'' of each becomes an ``at least one quarter''. Well, ``at least one quarter'' plus ``at least one quarter'' is ``at least one half''.
+
+    \item Can you give a linear-time algorithm? (\emph{Hint:} Here's another divide-and-conquer approach:
+        \begin{itemize}
+            \item Pair up the elements of $A$ arbitrarily, to get $n/2$ pairs
+            \item Look at each pair: if the two elements are different, discard both of them; if they are the same, keep one of them.
+        \end{itemize}
+    Show that after this procedure there are at most $n/2$ elements left, and that they have a majority element if and only if $A$ does.)
+
+    \vspace{5mm}
+
+    1/2 + 1/4 + 1/8 + ... = 1
+
 \end{enumerate}
 
 \end{enumerate}
