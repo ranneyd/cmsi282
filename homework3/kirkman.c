@@ -27,16 +27,17 @@ int funcCalls;
 	girlsPlacedToday: boolean array for each girl. We have to look up the girl we're
 					  trying to place to see if she's already been placed today
 */
-bool putSpot(GirlLayout * layout, int day, int row, int pos, bool * girlsPlacedToday) {
+bool putSpot(GirlLayout * layout, int day, int row, int pos, bool girlsPlacedToday[NUM_GIRLS]) {
 	
 	// If it's the first slot of the day, we have to reset the girlsPlacedToday
 	if (row == 0 && pos == 0) {
-		girlsPlacedToday = malloc(NUM_GIRLS * sizeof(bool));
-		memset(girlsPlacedToday, false, NUM_GIRLS * sizeof(bool));
+		bool newPlacedTable[NUM_GIRLS * sizeof(bool)];
+		memset(newPlacedTable, false, NUM_GIRLS * sizeof(bool));
 		// However, the first GIRLS_IN_ROW girls are in place already
 		for (int i = 0; i < GIRLS_IN_ROW; ++i) {
-			girlsPlacedToday[i] = true;
+			newPlacedTable[i] = true;
 		}
+		girlsPlacedToday = newPlacedTable;
 	}
 
 	// We have already placed the first GIRLS_IN_ROW girls for each day
@@ -128,10 +129,6 @@ bool putSpot(GirlLayout * layout, int day, int row, int pos, bool * girlsPlacedT
 				bool result = putSpot(layout, newDay, newRow, newPos, girlsPlacedToday);
 				if (result) {
 					// We also win, because we successfully placed this girl in this row
-					// Was this a new day? If so we need to free the girlsPlacedToday
-					if (newDay > day) {
-						free(girlsPlacedToday);
-					}
 					return true;
 				}
 				// If it wasn't a success we have to backtrack and undo setting the girl
@@ -194,13 +191,12 @@ int main(){
 	memset(&grills.layout, -1, NUM_DAYS * NUM_ROWS * GIRLS_IN_ROW * sizeof(int));
 	memset(&grills.partners, 0, NUM_GIRLS * NUM_GIRLS * sizeof(bool));
 
-	bool * girlsPlacedToday = malloc(NUM_GIRLS * sizeof(bool));
+	bool girlsPlacedToday[NUM_GIRLS];
 	bool result = setup(&grills);
 	if (result) {
 		result = putSpot(&grills, 1, 0, 0, girlsPlacedToday);
 	}
 
-	free(girlsPlacedToday);
 
 	printf("Success: %d FuncCalls: %d\n", result, funcCalls);
 
