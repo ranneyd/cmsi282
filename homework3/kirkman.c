@@ -2,12 +2,13 @@
 #define NUM_DAYS 7
 #define GIRLS_IN_ROW 3
 #define NUM_ROWS 5
+#define ITERATIONS 20
 
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 
 typedef struct {
@@ -27,7 +28,7 @@ int funcCalls;
 	girlsPlacedToday: boolean array for each girl. We have to look up the girl we're
 					  trying to place to see if she's already been placed today
 */
-bool putSpot(GirlLayout * layout, int day, int row, int pos, bool girlsPlacedToday[NUM_GIRLS]) {
+bool putSpot(GirlLayout * layout, int day, int row, int pos, bool * girlsPlacedToday) {
 	
 	// If it's the first slot of the day, we have to reset the girlsPlacedToday
 	if (row == 0 && pos == 0) {
@@ -86,8 +87,6 @@ bool putSpot(GirlLayout * layout, int day, int row, int pos, bool girlsPlacedTod
 	}
 
 	for (int girl = firstGirl; girl <= lastGirl; ++girl) {
-		//if can go in this slot
-
 		// Have we been placed today?
 		if (!girlsPlacedToday[girl]) {
 			// check the other girls in the row to see if we've been with them already
@@ -184,23 +183,38 @@ void printLayout(GirlLayout layout) {
 	}
 }
 
-int main(){
-	funcCalls = 0;
-	GirlLayout grills;
-
-	memset(&grills.layout, -1, NUM_DAYS * NUM_ROWS * GIRLS_IN_ROW * sizeof(int));
-	memset(&grills.partners, 0, NUM_GIRLS * NUM_GIRLS * sizeof(bool));
-
+bool kirkman(GirlLayout * girls) {
 	bool girlsPlacedToday[NUM_GIRLS];
-	bool result = setup(&grills);
+	bool result = setup(girls);
 	if (result) {
-		result = putSpot(&grills, 1, 0, 0, girlsPlacedToday);
+		return putSpot(girls, 1, 0, 0, girlsPlacedToday);
 	}
+	return result;
+}
 
+int main(){
+	GirlLayout girls;
 
-	printf("Success: %d FuncCalls: %d\n", result, funcCalls);
+	double sumMillis = 0;
 
-	printLayout(grills);
+	for (int i = 0; i < ITERATIONS; ++i) {
+		funcCalls = 0;
+		memset(&girls.layout, -1, NUM_DAYS * NUM_ROWS * GIRLS_IN_ROW * sizeof(int));
+		memset(&girls.partners, 0, NUM_GIRLS * NUM_GIRLS * sizeof(bool));
+		clock_t start = clock(), diff;
+		bool result = kirkman(&girls);
+		diff = clock() - start;
+
+		sumMillis += diff;
+
+		double seconds = diff * 1.0 / CLOCKS_PER_SEC;
+		printf("Success: %d FuncCalls: %d Time: %f\n", result, funcCalls, seconds);
+	}
+	printLayout(girls);
+
+	double finalAverage = sumMillis / ITERATIONS / CLOCKS_PER_SEC;
+
+	printf("Final average time: %f", finalAverage);
 
 	return 0;
 } 
