@@ -199,9 +199,9 @@ int main(){
 
 	for (int i = 0; i < ITERATIONS; ++i) {
 		funcCalls = 0;
+		clock_t start = clock(), diff;
 		memset(&girls.layout, -1, NUM_DAYS * NUM_ROWS * GIRLS_IN_ROW * sizeof(int));
 		memset(&girls.partners, 0, NUM_GIRLS * NUM_GIRLS * sizeof(bool));
-		clock_t start = clock(), diff;
 		bool result = kirkman(&girls);
 		diff = clock() - start;
 
