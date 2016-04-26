@@ -37,7 +37,10 @@ let checkResult = (results) => {
     if(results[results.length - 1] === 0) {
         // If we're full
         if(!blankPlaces) {
-            // Do we have enough queens? If so, we win, otherwise we lose
+            // We have to reduce, which isn't free, but obviously preferable to doing the whole
+            // check just to find the number of queens
+            let numQueens = results.reduce((prev, current) => prev + current);
+            //Do we have enough queens? If so, we win, otherwise we lose
             return numQueens < N ? "end" : "pass";
         }
         return "partial";
@@ -50,7 +53,6 @@ let checkResult = (results) => {
     let illegal = new Array(N_SQUARED);
     illegal.fill(0);
     let numQueens = 0;
-
 
     for(let i = 0; i < N; ++i){
         for(let j = 0; j < N; ++j){
