@@ -5,24 +5,28 @@
 // should try. It should return false if there is no next value.
 
 // checkResults takes a results array and returns false if it fails, "partial" if it is a partial
-// solution, and true if it is a complete solution.
+// solution, and "pass" if it is a complete solution.
 module.exports = (getNext, checkResult) => {
     let generator = (arr) => {
         let next;
         while(next = getNext(next)) {
             arr.push(next);
             let result = checkResult(arr);
+            if(result === "pass"){
+                return true;
+            }
             if(result === "partial") {
-
+                // move on to the next one
+                result = generate(arr);
+                if(result){
+                    return true;
+                }
+                // if it didn't work, go down to the undo pop
             }
-            else if (result) {
-
-            }
-            else {
-                // Take off the one we pushed
-                arr.pop();
-                return false;
-            }
+            // Take off the one we pushed
+            arr.pop();
         }
+        // None of the options worked. :(
+        return false;
     };
 }
