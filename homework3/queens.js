@@ -41,7 +41,7 @@ let checkResult = (results) => {
             // check just to find the number of queens
             let numQueens = results.reduce((prev, current) => prev + current);
             //Do we have enough queens? If so, we win, otherwise we lose
-            return numQueens < N ? "end" : "pass";
+            return numQueens < N ? "fail" : "pass";
         }
         return "partial";
     }
@@ -63,7 +63,7 @@ let checkResult = (results) => {
                 // we know the numQueens can't be more than N. So that's a freebie. Otherwise, we
                 // know we can't place the queen if this spot is illegal
                 if(numQueens > N || illegal[index]) {
-                    return blankPlaces ? 'fail' : 'end;'
+                    return 'fail';
                 }
                 // Otherwise, we need to mark all the bad places
 
@@ -121,7 +121,7 @@ let checkResult = (results) => {
     }
     // If we don't have enough queens and we're full, RIP
     if(!blankPlaces && numQueens < N){
-        return 'end';
+        return 'fail';
     }
     // No problems? We win!
     return blankPlaces ? "partial" : "pass";

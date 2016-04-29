@@ -4,8 +4,8 @@
 // gives us what we should try next. If nothing is passed in, it should give us the first value we
 // should try. It should return false if there is no next value.
 
-// checkResults takes a results array and returns "fail" if it fails, "end" if it fails AND is a
-// complete array, "partial" if it is a partial solution, and "pass" if it is a complete solution.
+// checkResults takes a results array and returns "fail" if it fails, "partial" if it is a partial
+// solution, and "pass" if it is a complete solution.
 module.exports = (getNext, checkResult) => {
     let generator = (arr) => {
         let next;
