@@ -25,10 +25,18 @@ class Leaf{
         return this.fill.join("/");
     }
     getLineage(){
-        let str = this.toString();
+        let str = "";
+        let child = this;
         let parent = this.parent;
         while(parent){
-            str = parent.toString() + "\n" + str;
+            let ourStr = "";
+            for(let i = 0; i < NUM_JUGS; ++i){
+                if(parent.fill[i] !== child.fill[i]){
+                    ourStr += `${parent.fill[i] > child.fill[i] ? 'E' : 'F'}${i}(${child.fill[i]}/${JUG_SIZES[i]}), `;
+                }
+            }
+            str = ourStr + "\n" + str;
+            child = parent;
             parent = parent.parent;
         }
         return str;
@@ -142,6 +150,7 @@ let findPath = () => {
 let leaf = findPath();
 
 if(leaf){
+    console.log("E = pour out, F = pour in\nO2 means 'pour out of jug 2'.\nRatio afterward is current fill/capacity of that jug.\n");
     console.log(leaf.getLineage());
 }
 else{
